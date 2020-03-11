@@ -32,9 +32,7 @@ http://localhost:8080/greeting?name=User
 ----
 ====
 
-`name` 매개변수는 기본적으로 설정되어있는 `World`를 대체합니다. 그리고 다음과 같이 응답에 반영됩니다.
-The `name` parameter value overrides the default value of `World` and is reflected in the
-response, as the following listing shows:
+`name` 매개변수는 기본적으로 설정되어있는 `World` 값을 대체합니다. 그리고 다음과 같이 응답에 반영됩니다.
 
 ====
 [source,json]
@@ -89,7 +87,7 @@ include::initial/build.gradle[]
 
 우선 서비스 상호장용에 대해 생각해보면서 시작해봅시다.
 
-서비스는 `/greeting`의 `GET` 요청을 제어할 것입니다. 추가적으로 `name` 문자열 매개변수가 존재합니다.
+서비스는 `/greeting` 의 `GET` 요청을 제어할 것입니다. 추가적으로 `name` 문자열 매개변수가 존재합니다.
 `GET` 요청은 body 내부에 인사를 포함하여 JSON 형태로 `200 OK` 응답을 반환해야합니다.
 결과는 다음과 같을 것입니다.
 
@@ -103,9 +101,9 @@ include::initial/build.gradle[]
 ----
 ====
 
-`id` 필드는 인사를 위한 유일 식별자입니다. 그리고 `content`는 인사를 나타내는 문자입니다.
+`id` 필드는 인사를 위한 유일 식별자입니다. 그리고 `content` 는 인사를 나타내는 문자입니다.
 
-인사의 형식을 모델링하기위해서는 리소스를 나타내는 클래스를 생성해야합니다. 그러기 위해서는 `id`와 `content` 자료를 위한
+인사의 형식을 모델링하기위해서는 리소스를 나타내는 클래스를 생성해야합니다. 그러기 위해서는 `id` 와 `content` 자료를 위한
 필드와 생성자 그리고 접근자를 가진 POJO(Plain Old Java Object)를 제공해야합니다. 이는 다음과 같습니다.
 (from `src/main/java/com/example/restservice/Greeting.java`) shows:
 
@@ -125,7 +123,7 @@ Jackson은 spring boot web starter에 기본적으로 포함되어있습니다.
 스프링의 RESTful 웹 서비스 구현 접근 방식에 따르면, HTTP 요청은 컨트롤러에 의해 제어됩니다.
 이러한 컴포넌트들은
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
-어노테이션에 의해 식별됩니다. 그리고 아래 예제 코드의 `GreetingController`는 `/greeting`에서 발생한 `GET` 요청에 대하여
+어노테이션에 의해 식별됩니다. 그리고 아래 예제 코드의 `GreetingController` 는 `/greeting` 에서 발생한 `GET` 요청에 대하여
 `Greeting` 클래스의 새로운 인스턴스를 반환하는 것으로 처리합니다.
 
 ====
@@ -138,16 +136,16 @@ include::complete/src/main/java/com/example/restservice/GreetingController.java[
 이 컨트롤러는 보기에 단순하고 간결하지만 그 아래에 다양한 작업이 이루어지고 있습니다.
 단계별로 알아보겠습니다.
 
-`@GetMapping` 어노테이션은 `/greeting`에 대한 HTTP GET 요청을 `greeting()` 메서드에 사상하는 것을 뜻합니다.
+`@GetMapping` 어노테이션은 `/greeting` 대한 HTTP GET 요청을 `greeting()` 메서드에 사상하는 것을 뜻합니다.
 
-NOTE: `GET`이외의 HTTP 메소드를 위한 어노테이션도 존재합니다. (e.g. `@PostMapping` for POST)
-또한 `@RequestMapping`과 같이 모든 기능을 어우르는 어노테이션도 있습니다. 동시에 `@RequestMapping(method=GET)`처럼 쓸 수 있습니다.
+NOTE: `GET` 외에 HTTP 메소드를 위한 어노테이션도 존재합니다. (e.g. `@PostMapping` for POST)
+또한 `@RequestMapping` 과 같이 모든 기능을 어우르는 어노테이션도 있습니다. 동시에 `@RequestMapping(method=GET)` 처럼 쓸 수 있습니다.
 
-`@RequestParam`은 `name` 문자열 쿼리 매개변수의 값을 `greeting()` 메서드의 `name` 매개변수로 바인드합니다.
-만약 요청을 통해 전달되는 `name` 매개변수가 없을 경우 `defaultValue`인 `World`를 사용합니다.
+`@RequestParam` 은 `name` 문자열 쿼리 매개변수의 값을 `greeting()` 메서드의 `name` 매개변수로 바인드합니다.
+만약 요청을 통해 전달되는 `name` 매개변수가 없을 경우 `defaultValue` 인 `World` 를 사용합니다.
 
-메서드의 몸체 구현은 `Greeting` 객체를 생성하여 반환합니다. `Greeting` 객체는 `counter`를 통해 다음 값을 갖는 `id`와
-greeting `template`을 사용하여 주어진 `name`을 포맷한 `content` 속성을 갖습니다.
+메서드의 몸체 구현은 `Greeting` 객체를 생성하여 반환합니다. `Greeting` 객체는 `counter` 를 통해 다음 값을 갖는 `id` 와
+greeting `template` 을 사용하여 주어진 `name` 을 포맷한 `content` 속성을 갖습니다.
 
 전통적인 MVC 컨트롤러와 RESTful 웹 서비스 컨트롤러의 가장 큰 차이점은 앞서 본 것처럼 HTTP response body를 생성하는 방법입니다.
 전자의 방식인 HTML에 greeting data를 server-side에서 렌더링하여 수행함으로써 뷰 기술에 의존하는 것보다
@@ -158,7 +156,7 @@ RESTful 웹 서비스 컨트롤러는 단순하게 `Greeting` 객체를 완성�
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
 어노테이션을 사용합니다.
 이 어노테이션은 아래 모든 메서드가 뷰 대신 도메인 객체를 반환한다는 것을 나타냅니다.
-또한 `@Controller`와 `@ResponseBody` 두 어노테이션의 축약입니다.
+또한 `@Controller` 와 `@ResponseBody` 두 어노테이션의 축약입니다.
 
 `Greeting` 객체는 JSON으로 변환되어야합니다. 다행이도 Srping의 HTTP message converter 덕분에
 그러한 변환 작업을 직접할 필요가 없습니다. classpath에 https://wiki.fasterxml.com/JacksonHome[Jackson 2]이 포함되면
@@ -172,13 +170,12 @@ include::https://raw.githubusercontent.com/aeomhs/getting-started-macros/master/
 
 include::https://raw.githubusercontent.com/aeomhs/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
-Logging output is displayed. The service should be up and running within a few seconds.
 로그 결과물이 출력되고 수 초 안에 서비스가 시작될 것입니다.
 
 
 == Test the Service
 
-서비스를 시작했으니 `http://localhost:8080/greeting`에 방문해보면 다음과 같은 결과를 확인할 수 있습니다.
+서비스를 시작했으니 `http://localhost:8080/greeting` 에 방문해보면 다음과 같은 결과를 확인할 수 있습니다.
 
 ====
 [source,json]
@@ -187,8 +184,8 @@ Logging output is displayed. The service should be up and running within a few s
 ----
 ====
 
-`http://localhost:8080/greeting?name=User`에 방문하는 것은 `name` 쿼리 문자열 매개변수를 제공하는 것입니다.
-그러면 다음 결과와 같이 `content` 속성의 값이 `Hello, World!`에서 `Hello, User!`로 어떻게 변환되는지 확인할 수 있습니다.
+`http://localhost:8080/greeting?name=User` 에 방문하는 것은 `name` 쿼리 문자열 매개변수를 제공하는 것입니다.
+그러면 다음 결과와 같이 `content` 속성의 값이 `Hello, World!` 에서 `Hello, User!` 로 어떻게 변환되는지 확인할 수 있습니다.
 
 ====
 [source,json]
@@ -198,9 +195,9 @@ Logging output is displayed. The service should be up and running within a few s
 ====
 
 이 결과는 `GreetingController` 안의 `@RequestParam` arrangement가 예상한대로 역할을 잘 수행한 것을 보여줍니다.
-`name` 매개변수는 `World`가 기본 값으로 주어졌지만, 쿼리 문자열을 통해 명시적으로 대체될 수 있었습니다.
+`name` 매개변수는 `World` 가 기본 값으로 주어졌지만, 쿼리 문자열을 통해 명시적으로 대체될 수 있었습니다.
 
-`id` 속성이 `1`에서 `2`로 변환된 것을 주목해봅시다. 이는
+`id` 속성이 `1` 에서 `2` 로 변환된 것을 주목해봅시다. 이는
 컨트롤러의 `counter` 필드가 예상했던 것처럼 각 호출마다 증가되었다는 것과 여러 요청들이
 모두 같은 `GreetingController` 인스턴스에서 작업이 이루어졌음을 증명합니다.
 
